@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beginning Haven — The First 30 Days Program</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;0,700;1,400;1,500;1,600&family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FBF6F1;
+    --paper:#FFFFFF;
+    --ink:#3A2E28;
+    --ink-soft:#6B5B51;
+    --mauve:#9C6F5C;
+    --mauve-dark:#8B5E4D;
+    --terracotta:#BE8168;
+    --sage:#ADBBA0;
+    --sage-deep:#7E8B70;
+    --sage-light:#F4F6F0;
+    --tan-line:#E3D3C4;
+    --tan-card:#F5EBE1;
+    --cta-bg:#EDD9C4;
+    --shadow: 0 12px 32px rgba(139,94,77,0.10);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0; background:var(--cream); color:var(--ink);
+    font-family:'Mulish',sans-serif; font-size:16px; line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.serif{font-family:'Poppins',sans-serif;}
+  h1,h2,h3{color:var(--mauve); margin:0; font-weight:600;}
+  a{color:inherit;}
+  img{max-width:100%;display:block;}
+  .wrap{max-width:1120px; margin:0 auto; padding:0 32px;}
+  .eyebrow{
+    font-size:12.5px; letter-spacing:2.6px; text-transform:uppercase;
+    color:var(--sage-deep); font-weight:700; margin-bottom:14px; display:block;
+  }
+  section{padding:64px 0;}
+  @media (max-width:720px){ section{padding:48px 0;} .wrap{padding:0 22px;} }
+
+  /* ---------------- NAV ---------------- */
+  header.nav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(251,246,241,0.92); backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--tan-line);
+  }
+  .nav-inner{
+    max-width:1360px; margin:0 auto; padding:16px 48px;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .brand{ display:flex; align-items:center; gap:5px; font-family:'Poppins',sans-serif; font-weight:700; font-size:19px; color:var(--mauve); text-decoration:none;}
+  .brand svg{width:15px;height:26px; position:relative; top:-2px;}
+  nav.links{ display:flex; gap:34px; align-items:center; }
+  nav.links a{ text-decoration:none; color:var(--ink); font-weight:600; font-size:14.5px; }
+  nav.links a:hover{ color:var(--mauve); }
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    background:var(--mauve); color:#fff !important; font-weight:700; font-size:14.5px;
+    padding:13px 26px; border-radius:30px; text-decoration:none; border:none; cursor:pointer;
+    transition:background .18s ease, transform .18s ease; font-family:'Mulish',sans-serif;
+  }
+  .btn:hover{ background:var(--mauve-dark); transform:translateY(-1px); }
+  .btn.ghost{ background:transparent; color:var(--mauve) !important; border:1.5px solid var(--mauve); }
+  .btn.ghost:hover{ background:var(--mauve); color:#fff !important; }
+  .mobile-toggle{ display:none; background:none; border:none; cursor:pointer; padding:6px; }
+  .mobile-toggle svg{ width:24px; height:24px; display:block; }
+  .mobile-menu{
+    display:none; flex-direction:column; gap:2px; background:var(--cream);
+    border-top:1px solid var(--tan-line); padding:10px 32px 18px;
+  }
+  .mobile-menu a{
+    text-decoration:none; color:var(--ink); font-weight:600; font-size:15px;
+    padding:12px 4px; border-bottom:1px solid var(--tan-line);
+  }
+  .mobile-menu a:last-child{ border-bottom:none; margin-top:8px; }
+  .mobile-menu.open{ display:flex; }
+  @media (max-width:860px){
+    nav.links{ display:none; }
+    .desktop-only{ display:none; }
+    .mobile-toggle{ display:block; }
+  }
+
+  /* ---------------- HERO ---------------- */
+  .hero{ padding:48px 0 36px; overflow:hidden; position:relative; }
+  .hero-centered{ text-align:center; max-width:680px; margin:0 auto; display:flex; flex-direction:column; align-items:center; }
+  .hero h1{ font-size:clamp(34px,4.6vw,54px); line-height:1.14; margin-bottom:22px; }
+  .hero h1 em{ color:var(--terracotta); font-style:italic; }
+  .hero p.lede{ font-size:18px; color:var(--ink-soft); max-width:480px; margin:0 auto 32px; }
+  .hero-ctas{ display:flex; gap:16px; flex-wrap:wrap; margin-bottom:26px; justify-content:center; }
+  .trust-line{ font-size:13.5px; color:var(--ink-soft); display:flex; align-items:center; gap:8px; justify-content:center; margin-bottom:36px; }
+  .trust-line svg{width:16px;height:16px;flex-shrink:0;}
+
+  .hero-leaf-small{ margin-top:20px; display:flex; justify-content:center; }
+  .leaf-draw path{
+    fill:none; stroke:var(--sage); stroke-width:3;
+    stroke-linecap:round; stroke-dasharray:900; stroke-dashoffset:900;
+    animation:draw 2.6s ease forwards .3s;
+  }
+  .leaf-draw path.fillshape{
+    fill:var(--sage); stroke:none;
+    transform:scale(0); animation:grow .5s ease forwards 2.1s;
+  }
+  .leaf-draw path.fillshape-dup{ fill:#8CA07C; }
+  @keyframes draw{ to{ stroke-dashoffset:0; } }
+  @keyframes grow{ to{ transform:scale(1); } }
+  @media (prefers-reduced-motion:reduce){
+    .leaf-draw path{ animation:none; stroke-dashoffset:0; }
+    .leaf-draw path.fillshape{ animation:none; transform:scale(1); }
+  }
+
+  /* ---------------- EMPATHY ---------------- */
+  .empathy{ background:var(--paper); border-top:1px solid var(--tan-line); border-bottom:1px solid var(--tan-line);}
+  .empathy .wrap{ text-align:center; }
+  .empathy h2{ font-size:30px; max-width:640px; margin:0 auto 12px; }
+  .empathy .sub{ color:var(--ink-soft); max-width:560px; margin:0 auto 48px; font-size:16.5px;}
+  .quote-row{ display:flex; flex-direction:column; gap:18px; max-width:520px; margin:0 auto; }
+  .quote-row .quote-card{ width:100%; }
+  .quote-card{
+    background:var(--cream); border:1px solid var(--tan-line); border-radius:16px;
+    padding:28px 24px; text-align:left;
+  }
+  .quote-card p{ font-family:'Poppins',sans-serif; font-style:italic; color:var(--mauve); font-size:18px; line-height:1.5; margin:0; }
+
+  /* ---------------- WHAT'S INSIDE ---------------- */
+  .inside{ background:var(--cream); }
+  .inside .head{ text-align:center; max-width:620px; margin:0 auto 52px; }
+  .inside h2{ font-size:32px; margin-bottom:14px; }
+  .inside p.sub{ color:var(--ink-soft); font-size:16.5px; }
+  .card-grid{ display:flex; flex-direction:column; gap:12px; max-width:640px; margin:0 auto; }
+  .card-grid .item-card{ width:100%; }
+  .item-card{
+    background:var(--paper); border:1px solid var(--tan-line); border-radius:14px;
+    padding:14px 22px; box-shadow:0 4px 14px rgba(139,94,77,0.06);
+  }
+  .item-card .tag{
+    display:inline-block; font-size:11.5px; font-weight:700; letter-spacing:1.4px;
+    text-transform:uppercase; color:var(--terracotta); margin-bottom:4px;
+  }
+  .item-card h3{ font-size:18.5px; margin-bottom:6px; }
+  .item-card p{ color:var(--ink-soft); font-size:14.5px; margin:0; }
+  .item-card.feature{ background:var(--mauve); }
+  .item-card.feature .tag{ color:#F0D9CC; }
+  .item-card.feature h3, .item-card.feature p{ color:#fff; }
+
+  .tier-explain-grid{ display:flex; flex-direction:column; gap:16px; max-width:640px; margin:0 auto; }
+  .tier-explain-card{
+    background:var(--paper); border:1px solid var(--tan-line); border-radius:14px;
+    padding:24px 26px; box-shadow:0 4px 14px rgba(139,94,77,0.06);
+  }
+  .tier-explain-card.feature{ background:var(--mauve); }
+  .tier-num{
+    display:flex; align-items:center; justify-content:center;
+    width:32px; height:32px; border-radius:50%;
+    background:var(--sage); color:#fff; font-family:'Poppins',sans-serif;
+    font-weight:700; font-size:15px; margin-bottom:12px;
+  }
+  .tier-explain-card.feature .tier-num{ background:#fff; color:var(--mauve); }
+  .tier-explain-card .tag{
+    display:inline-block; font-size:11.5px; font-weight:700; letter-spacing:1.4px;
+    text-transform:uppercase; color:var(--terracotta); margin-bottom:4px;
+  }
+  .tier-explain-card.feature .tag{ color:#F0D9CC; }
+  .tier-explain-card h3{ font-size:21px; margin-bottom:2px; }
+  .tier-explain-card.feature h3{ color:#fff; }
+  .tier-explain-card .subname{ font-size:13px; color:var(--ink-soft); margin-bottom:8px; }
+  .tier-explain-card.feature .subname{ color:#F0D9CC; }
+  .tier-explain-card > p.tagline{ font-size:14.5px; color:var(--ink-soft); margin-bottom:14px; }
+  .tier-explain-card.feature > p.tagline{ color:#fff; }
+  .tier-explain-card ul{ list-style:none; padding:0; margin:0 0 16px; }
+  .tier-explain-card ul li{ font-size:14.5px; color:var(--ink); padding:4px 0 4px 14px; position:relative; }
+  .tier-explain-card.feature ul li{ color:#fff; }
+  .tier-explain-card ul li:before{ content:"\2022"; position:absolute; left:0; color:var(--sage); }
+  .tier-explain-card.feature ul li:before{ color:#F0D9CC; }
+  .tier-explain-card .perfect-for{ font-size:14px; color:var(--ink-soft); border-top:1px solid var(--tan-line); padding-top:14px; }
+  .tier-explain-card.feature .perfect-for{ color:#fff; border-top-color:rgba(255,255,255,0.25); }
+  .tier-explain-card .perfect-for b{ color:var(--terracotta); }
+  .tier-explain-card.feature .perfect-for b{ color:#F0D9CC; }
+  .decision-divider{ border-top:1px solid var(--tan-line); margin:16px 0; }
+  .tier-explain-card.feature .decision-divider{ border-top-color:rgba(255,255,255,0.25); }
+  .tier-explain-card .q{ font-family:'Poppins',sans-serif; font-weight:700; font-size:15.5px; color:var(--terracotta); margin-bottom:6px; }
+  .tier-explain-card.feature .q{ color:#F0D9CC; }
+  .tier-explain-card .lead{ font-size:13.5px; color:var(--ink-soft); font-style:italic; margin-bottom:10px; }
+  .tier-explain-card.feature .lead{ color:#fff; }
+  .tier-explain-card .decision-tag{ font-size:13px; font-style:italic; color:var(--ink-soft); margin-top:4px; }
+  .tier-explain-card.feature .decision-tag{ color:#fff; }
+  .tier-decision{ max-width:640px; margin:40px auto 0; }
+  .tier-decision .decision-head{ text-align:center; margin-bottom:24px; }
+  .tier-decision .decision-head h3{ font-size:22px; }
+  .decision-card{ background:var(--cream); border-radius:14px; border:1px solid var(--tan-line); padding:22px 26px; margin-bottom:16px; }
+  .decision-card:last-child{ margin-bottom:0; }
+  .decision-card .q{ font-family:'Poppins',sans-serif; font-weight:700; font-size:16.5px; color:var(--terracotta); margin-bottom:6px; }
+  .decision-card .lead{ font-size:14.5px; color:var(--ink-soft); font-style:italic; margin-bottom:4px; }
+  .decision-card .choose{ font-family:'Poppins',sans-serif; font-weight:700; font-size:15.5px; color:var(--mauve); margin-bottom:12px; }
+  .decision-card ul{ list-style:none; padding:0; margin:0 0 12px; }
+  .decision-card ul li{ font-size:14.5px; color:var(--ink); padding:3px 0 3px 20px; position:relative; }
+  .decision-card ul li:before{ content:"—"; position:absolute; left:0; color:var(--sage); }
+  .decision-card .decision-tag{ font-size:13px; font-style:italic; color:var(--ink-soft); border-top:1px solid var(--tan-line); padding-top:10px; }
+
+  /* ---------------- NURTURE ---------------- */
+  .nurture{ background:var(--sage-light); text-align:center; }
+  .nurture-content{ max-width:640px; margin:0 auto; }
+  .nurture h2{ font-size:32px; margin-bottom:16px; }
+  .nurture p.sub{ color:var(--ink-soft); font-size:16.5px; }
+  .nurture-letters{
+    display:flex; justify-content:center; gap:14px; flex-wrap:wrap; margin-top:8px; margin-bottom:16px;
+  }
+  .n-letter{
+    width:58px; height:58px; border-radius:50%; background:var(--paper);
+    border:1.5px solid var(--sage); color:var(--mauve);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Poppins',sans-serif; font-weight:700; font-size:24px;
+    transition:transform .2s ease, background .2s ease;
+  }
+  .n-letter:hover{ background:var(--sage); color:#fff; transform:translateY(-3px); }
+  @media (max-width:600px){ .n-letter{ width:46px; height:46px; font-size:19px; } }
+  @media (max-width:480px){
+    .nurture-letters{ gap:4px; }
+    .n-letter{ width:40px; height:40px; font-size:16.5px; border-width:1.5px; }
+  }
+
+  /* ---------------- PEEK INSIDE ---------------- */
+  .peek{ background:var(--paper); }
+  .peek .head{ text-align:center; max-width:600px; margin:0 auto 48px; }
+  .peek h2{ font-size:32px; margin-bottom:14px;}
+  .peek p.sub{ color:var(--ink-soft); font-size:16.5px; }
+  .peek-grid{ display:flex; flex-wrap:wrap; gap:24px; }
+  .peek-grid .peek-card{ flex:1 1 calc(33.333% - 16px); min-width:260px; }
+  @media (max-width:900px){ .peek-grid .peek-card{ flex:1 1 100%; } }
+  .peek-card{
+    background:var(--paper); border:1px solid var(--tan-line); border-radius:16px;
+    overflow:hidden; box-shadow:0 4px 14px rgba(139,94,77,0.06);
+  }
+  .peek-card .strip-top{ height:6px; background:var(--tan-card); }
+  .peek-card.morning .strip-top{ background:#ECCFA0; }
+  .peek-card.midday .strip-top{ background:#C7C9BE; }
+  .peek-card.evening .strip-top{ background:#D9AEA3; }
+  .peek-card .pc-inner{ padding:14px 20px 16px; }
+  .peek-card h3{ font-size:16.5px; margin-bottom:8px; }
+  .checklist{ list-style:none; margin:0; padding:0; }
+  .checklist li{ font-size:14px; color:var(--ink-soft); padding:3px 0 3px 26px; position:relative; }
+  .checklist li:before{
+    content:""; position:absolute; left:0; top:9px; width:14px; height:14px;
+    border:1.5px solid var(--sage); border-radius:4px;
+  }
+  .plain-list{ list-style:none; margin:0; padding:0; }
+  .plain-list li{
+    font-family:'Poppins',sans-serif; font-style:italic; color:var(--mauve); font-size:14.5px;
+    padding:0 0 8px 0; margin-bottom:8px;
+  }
+  .plain-list li:last-child{ padding-bottom:0; margin-bottom:0; }
+  .fill-line{
+    display:block; margin-top:9px; height:1px; background:var(--tan-line); width:100%;
+  }
+  .info-text{ font-size:14px; color:var(--ink-soft); line-height:1.5; margin:0 0 10px; }
+  .info-list{ list-style:none; margin:0; padding:0; }
+  .info-list li{
+    font-size:13.5px; color:var(--ink-soft); line-height:1.4; padding:3px 0 3px 16px; position:relative;
+  }
+  .info-list li:before{
+    content:"•"; position:absolute; left:0; top:2px; color:var(--sage);
+  }
+
+  /* ---------------- CTA BAND ---------------- */
+  .cta-band{ background:var(--cta-bg); text-align:center; border-top:1px solid var(--tan-line); border-bottom:1px solid var(--tan-line); }
+  .tier-row{ display:flex; gap:16px; justify-content:center; align-items:stretch; flex-wrap:wrap; max-width:720px; margin:32px auto 28px; }
+  .tier-card{
+    flex:1 1 190px; max-width:220px; background:var(--paper); border:1px solid var(--tan-line);
+    border-radius:14px; padding:20px 16px; box-shadow:0 3px 10px rgba(139,94,77,0.06);
+    display:flex; flex-direction:column;
+  }
+  .tier-card-featured{ border-color:var(--mauve); border-width:1.5px; }
+  .tier-name{ font-family:'Poppins',sans-serif; font-weight:700; color:var(--mauve); font-size:16px; margin-bottom:4px; }
+  .tier-tag{ display:block; font-size:11px; font-weight:700; letter-spacing:1.4px; text-transform:uppercase; color:var(--terracotta); margin-bottom:4px; }
+  .tier-desc{ font-size:13px; color:var(--ink-soft); line-height:1.4; margin-bottom:10px; margin-left:0; padding-left:0; list-style:none; text-align:left; }
+  .tier-desc li{ position:relative; padding-left:14px; }
+  .tier-desc li:before{ content:"\2022"; position:absolute; left:0; color:var(--sage); }
+  .tier-price{ font-family:'Poppins',sans-serif; font-weight:700; color:#5C4033; font-size:22px; margin-top:auto; }
+  .cta-band h2{ font-size:34px; max-width:640px; margin:0 auto 16px; }
+  .cta-band p{ color:var(--ink-soft); max-width:520px; margin:0 auto 34px; font-size:16.5px; }
+  .price-row{ display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
+
+  /* ---------------- FAQ ---------------- */
+  /* ---------------- ABOUT ---------------- */
+  .about{ background:var(--paper); }
+  .about h2{ font-size:30px; margin-bottom:16px; }
+  .about-p{ color:var(--ink-soft); font-size:16.5px; margin:0 auto 16px; max-width:560px; }
+  .about-p:last-child{ margin-bottom:0; }
+
+  /* ---------------- CONTACT ---------------- */
+  .contact{ background:var(--cream); }
+  .contact h2{ font-size:30px; margin-bottom:12px; }
+  .contact p.sub{ color:var(--ink-soft); font-size:16px; }
+  .contact-form{
+    max-width:480px; margin:34px auto 0; text-align:left;
+    background:var(--paper); border:1px solid var(--tan-line); border-radius:16px;
+    padding:30px 28px; box-shadow:0 4px 14px rgba(139,94,77,0.06);
+  }
+  .form-row{ margin-bottom:18px; }
+  .form-row:last-of-type{ margin-bottom:22px; }
+  .form-row label{
+    display:block; font-size:12.5px; font-weight:700; letter-spacing:0.6px;
+    color:var(--mauve); margin-bottom:6px; text-transform:uppercase;
+  }
+  .form-row input, .form-row textarea{
+    width:100%; border:1.5px solid var(--tan-line); border-radius:10px;
+    padding:11px 14px; font-family:'Mulish',sans-serif; font-size:14.5px; color:var(--ink);
+    background:var(--cream); resize:vertical; transition:border-color .18s ease;
+  }
+  .form-row input:focus, .form-row textarea:focus{
+    outline:none; border-color:var(--mauve);
+  }
+  .contact-form .btn{ width:100%; border:none; }
+
+  .faq{ background:var(--sage-light); }
+  .faq .head{ max-width:620px; margin-bottom:40px; }
+  .faq h2{ font-size:32px; }
+  .faq-item{ border-bottom:1px solid var(--tan-line); }
+  .faq-q{
+    width:100%; text-align:left; background:none; border:none; cursor:pointer;
+    padding:22px 4px; display:flex; justify-content:space-between; align-items:center;
+    font-family:'Poppins',sans-serif; font-size:17px; color:var(--mauve); font-weight:600;
+  }
+  .faq-q .plus{ font-size:22px; color:var(--sage); transition:transform .2s ease; flex-shrink:0; margin-left:16px;}
+  .faq-item.open .faq-q .plus{ transform:rotate(45deg); }
+  .faq-a{ max-height:0; overflow:hidden; transition:max-height .3s ease; }
+  .faq-a p{ color:var(--ink-soft); font-size:15px; padding:0 4px 22px; margin:0; max-width:640px; }
+
+  /* ---------------- FOOTER ---------------- */
+  footer{ background:var(--sage-light); padding:40px 0 24px; }
+  .footer-grid{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:36px; margin-bottom:36px;}
+  .footer-brand{ display:flex; align-items:center; gap:5px; font-family:'Poppins',sans-serif; font-weight:700; font-size:18px; color:var(--mauve); }
+  .footer-brand svg{ width:14px;height:24px; position:relative; top:-2px; }
+  .footer-links{ display:flex; gap:48px; flex-wrap:wrap; }
+  .footer-col h5{ font-size:12.5px; letter-spacing:1.4px; text-transform:uppercase; color:var(--mauve); font-weight:800; margin:0 0 14px; }
+  .footer-col a{ display:block; text-decoration:none; color:var(--ink-soft); font-size:14.5px; margin-bottom:10px; }
+  .footer-col a:hover{ color:var(--mauve); }
+  .footer-bottom{ border-top:1px solid var(--tan-line); padding-top:22px; font-size:13px; color:var(--ink-soft); display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;}
+
+  .reveal{ opacity:0; transform:translateY(18px); transition:opacity .7s ease, transform .7s ease; }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+
+  .scroll-nav{
+    position:fixed; right:20px; bottom:20px; z-index:60;
+    display:flex; flex-direction:column; gap:8px;
+  }
+  .scroll-btn{
+    width:42px; height:42px; border-radius:50%; background:var(--paper);
+    border:1px solid var(--tan-line); box-shadow:var(--shadow);
+    display:flex; align-items:center; justify-content:center; cursor:pointer;
+    opacity:0; visibility:hidden; transform:translateY(6px);
+    transition:opacity .25s ease, transform .25s ease, visibility .25s;
+  }
+  .scroll-btn.visible{ opacity:1; visibility:visible; transform:translateY(0); }
+  .scroll-btn svg{ width:18px; height:18px; }
+  .scroll-btn:hover{ background:var(--sage-light); }
+  @media (max-width:600px){
+    .scroll-nav{ right:14px; bottom:14px; }
+    .scroll-btn{ width:38px; height:38px; }
+  }
+</style>
+<noscript><style>.reveal{ opacity:1 !important; transform:none !important; }</style></noscript>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <a href="#top" class="brand">
+      <svg class="brand-leaf-icon" viewBox="0 0 200 340" fill="none"><path d="M100 325 C 99 270, 100 195, 100 127" stroke="#8CA07C" stroke-width="6" fill="none"/><path d="M100 265 C 125 251, 147 228, 155 195 C 127 195, 106 214, 100 242 Z" fill="#ADBBA0"/><path d="M100 265 C 129 262, 158 250, 178 223 C 153 212, 127 221, 110 244 Z" fill="#8CA07C"/><path d="M100 219 C 75 205, 53 182, 45 149 C 73 149, 94 168, 100 196 Z" fill="#ADBBA0"/><path d="M100 219 C 71 216, 42 204, 22 177 C 47 166, 73 175, 90 198 Z" fill="#8CA07C"/><path d="M100 173 C 125 159, 147 136, 155 103 C 127 103, 106 122, 100 150 Z" fill="#ADBBA0"/><path d="M100 173 C 129 170, 158 158, 178 131 C 153 120, 127 129, 110 152 Z" fill="#8CA07C"/><path d="M100 127 C 85 112, 78 92, 80 67 C 100 77, 108 97, 100 127 Z" fill="#ADBBA0"/><path d="M100 127 C 80 119, 66 104, 57 80 C 80 81, 95 96, 100 127 Z" fill="#8CA07C"/></svg>
+      Beginning Haven
+    </a>
+    <nav class="links">
+      <a href="#method">The Framework</a>
+      <a href="#inside">What's Inside</a>
+      <a href="#peek">Sneak Peek</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contact">Contact Us</a>
+      <a href="#about">Our Story</a>
+    </nav>
+    <a href="#pricing" class="btn desktop-only">Download Program</a>
+    <button type="button" class="mobile-toggle" aria-label="Open menu" aria-expanded="false">
+      <svg class="icon-burger" viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h16" stroke="#8B5E4D" stroke-width="2" stroke-linecap="round"/></svg>
+      <svg class="icon-close" viewBox="0 0 24 24" fill="none" style="display:none;"><path d="M6 6l12 12M18 6L6 18" stroke="#8B5E4D" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+  <div class="mobile-menu">
+    <a href="#method">The Framework</a>
+    <a href="#inside">What's Inside</a>
+    <a href="#peek">Sneak Peek</a>
+    <a href="#faq">FAQ</a>
+    <a href="#contact">Contact Us</a>
+    <a href="#about">Our Story</a>
+    <a href="#pricing" class="btn">Download Program</a>
+  </div>
+</header>
+
+<main id="top">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap hero-centered">
+      <span class="eyebrow">The N.U.R.T.U.R.E. Method™</span>
+      <h1>You don't have to<br>figure this out <em>alone.</em></h1>
+      <p class="lede">A gentle, guided companion for the first 30 days with your baby &mdash; built for the quiet moments of doubt, the 3am uncertainty, and everything in between.</p>
+      <div class="hero-ctas">
+        <a href="#pricing" class="btn">Download Program</a>
+        <a href="Beginning%20Haven%20-%20Free%20Preview.pdf" target="_blank" class="btn ghost">Download Free Preview</a>
+      </div>
+      <div class="trust-line">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M4 12l5 5L20 6" stroke="#ADBBA0" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Fillable on your phone, or print it at home
+      </div>
+      <div class="hero-leaf-small">
+        <svg class="leaf-draw" viewBox="0 0 200 340" width="120" height="204">
+          <path d="M100 325 C 99 270, 100 195, 100 127" />
+          <path class="fillshape" style="animation-delay:1.5s; transform-origin:100px 265px;" d="M100 265 C 125 251, 147 228, 155 195 C 127 195, 106 214, 100 242 Z" />
+          <path class="fillshape fillshape-dup" style="animation-delay:1.65s; transform-origin:100px 265px;" d="M100 265 C 129 262, 158 250, 178 223 C 153 212, 127 221, 110 244 Z" />
+          <path class="fillshape" style="animation-delay:1.8s; transform-origin:100px 219px;" d="M100 219 C 75 205, 53 182, 45 149 C 73 149, 94 168, 100 196 Z" />
+          <path class="fillshape fillshape-dup" style="animation-delay:1.95s; transform-origin:100px 219px;" d="M100 219 C 71 216, 42 204, 22 177 C 47 166, 73 175, 90 198 Z" />
+          <path class="fillshape" style="animation-delay:2.1s; transform-origin:100px 173px;" d="M100 173 C 125 159, 147 136, 155 103 C 127 103, 106 122, 100 150 Z" />
+          <path class="fillshape fillshape-dup" style="animation-delay:2.25s; transform-origin:100px 173px;" d="M100 173 C 129 170, 158 158, 178 131 C 153 120, 127 129, 110 152 Z" />
+          <path class="fillshape" style="animation-delay:2.4s; transform-origin:100px 127px;" d="M100 127 C 85 112, 78 92, 80 67 C 100 77, 108 97, 100 127 Z" />
+          <path class="fillshape fillshape-dup" style="animation-delay:2.55s; transform-origin:100px 127px;" d="M100 127 C 80 119, 66 104, 57 80 C 80 81, 95 96, 100 127 Z" />
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- EMPATHY -->
+  <section class="empathy">
+    <div class="wrap">
+      <span class="eyebrow">You're not alone in this</span>
+      <h2>The early weeks can be filled with beautiful moments — and uncertain ones, too.</h2>
+      <p class="sub">Many new mums quietly wonder the same things. If you've had these thoughts, you are not alone.</p>
+      <div class="quote-row">
+        <div class="quote-card reveal"><p>"Am I doing this right?"</p></div>
+        <div class="quote-card reveal"><p>"Why are they crying &mdash; is this normal?"</p></div>
+        <div class="quote-card reveal"><p>"What does my baby actually need from me?"</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NURTURE METHOD / FRAMEWORK -->
+  <section class="nurture" id="method">
+    <div class="wrap">
+      <div class="nurture-content reveal">
+        <span class="eyebrow">Program</span>
+        <h2>The Framework</h2>
+        <p class="sub">Every part of this program runs on a gentle seven-part framework called <strong>The N.U.R.T.U.R.E. Method&trade;</strong> &mdash; patience, observation, and confidence, one day at a time. You'll find the full framework, and what each letter means for your days with your baby, inside the Core Program.</p>
+        <p class="sub" style="font-style:italic; margin-top:12px;">Built on The N.U.R.T.U.R.E. Method&trade; &mdash; Beginning Haven's signature postpartum framework.</p>
+      </div>
+      <div class="nurture-letters reveal">
+        <div class="n-letter">N</div>
+        <div class="n-letter">U</div>
+        <div class="n-letter">R</div>
+        <div class="n-letter">T</div>
+        <div class="n-letter">U</div>
+        <div class="n-letter">R</div>
+        <div class="n-letter">E</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT'S INSIDE -->
+  <section class="inside" id="inside">
+    <div class="wrap">
+      <div class="head reveal">
+        <span class="eyebrow">Program</span>
+        <h2>What's Inside</h2>
+        <p class="sub">Read the weekly guides in order the first time through, then skip straight to whatever's useful in the moment.</p>
+      </div>
+      <div class="card-grid">
+        <div class="item-card feature reveal">
+          <span class="tag">Free Download</span>
+          <h3>Free Preview</h3>
+          <p>A little glimpse of what's inside</p>
+        </div>
+        <div class="item-card reveal">
+          <span class="tag">Start Here</span>
+          <h3>Introduction Guide</h3>
+          <p>Welcome to the First 30 Days Program &mdash; including how to use this program and the framework behind it all</p>
+        </div>
+        <div class="item-card reveal">
+          <span class="tag">Part One</span>
+          <h3>Settling Into Motherhood</h3>
+          <p>Weeks One through Four &mdash; getting to know your baby and growing your confidence</p>
+        </div>
+        <div class="item-card reveal">
+          <span class="tag">Part Two</span>
+          <h3>Creating a Calm Home</h3>
+          <p>Simple ways to set up a peaceful, functional space for life with a newborn</p>
+        </div>
+        <div class="item-card reveal">
+          <span class="tag">Part Three</span>
+          <h3>Gentle Daily Rhythms</h3>
+          <p>Understanding your baby's rhythm and easing into a flow</p>
+        </div>
+        <div class="item-card reveal">
+          <span class="tag">Part Four</span>
+          <h3>Simplifying the Mental Load</h3>
+          <p>Practical ways to help mums feel less overwhelmed</p>
+        </div>
+        <div class="item-card reveal">
+          <span class="tag">Part Five</span>
+          <h3>Reflection &amp; Reset</h3>
+          <p>A gentle workbook space to pause, reflect, and check in with yourself</p>
+        </div>
+        <div class="item-card reveal">
+          <h3>Extra Support</h3>
+          <p>Thirteen guides for the topics that deserve your time, which include: Newborn Warning Signs, Feeding Guide, Feeding Difficulties &amp; Reassurance, Nappy Care, Newborn Skin, Sleeping Guide, Crying &amp; Unsettled Babies, Premature or NICU Babies, Twins or Multiples, Postpartum Body Recovery, Baby Blues &amp; Postpartum Depression, Partner Support Checklist, and Setting Boundaries</p>
+        </div>
+        <div class="item-card reveal">
+          <h3>Daily Toolkit</h3>
+          <p>Seven tools to support your day &mdash; from tracking your baby's rhythm to resetting your own, which include: Mum Reset Plan, Daily Calm Checklist, Micro Routine Builder, Daily Rhythm Tracker, Feeding Log, Sleep Tracker, and Recovery Check-In</p>
+        </div>
+        <div class="item-card reveal">
+          <h3>Daily Journal</h3>
+          <p>A daily idea, plus space for your own notes &mdash; four weeks, one day at a time</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PEEK INSIDE -->
+  <section class="peek" id="peek">
+    <div class="wrap">
+      <div class="head reveal">
+        <span class="eyebrow">Program</span>
+        <h2>Sneak Peek</h2>
+        <p class="sub">Real pages from the program, exactly as they appear inside.</p>
+      </div>
+      <div class="peek-grid">
+        <div class="peek-card reveal morning">
+          <div class="strip-top"></div>
+          <div class="pc-inner">
+            <span class="tag">Part One</span>
+            <h3>This Week's Small Shifts</h3>
+            <ul class="checklist">
+              <li>Water bottle, snacks, and phone charger within reach</li>
+              <li>Nappies, wipes, and spare clothes kept close by</li>
+              <li>Let go of a tidy home — your only priority is rest and bonding</li>
+            </ul>
+          </div>
+        </div>
+        <div class="peek-card reveal midday">
+          <div class="strip-top"></div>
+          <div class="pc-inner">
+            <span class="tag">Extra Support</span>
+            <h3>Signs Feeding Is Going Well</h3>
+            <p class="info-text">A gentle overview to help you feel reassured, not medical advice.</p>
+            <ul class="info-list">
+              <li>3&ndash;4 wet nappies a day by day four, increasing from there</li>
+              <li>Steady weight gain once feeding is established</li>
+              <li>Your baby seems settled and satisfied after most feeds</li>
+            </ul>
+          </div>
+        </div>
+        <div class="peek-card reveal evening">
+          <div class="strip-top"></div>
+          <div class="pc-inner">
+            <span class="tag">Daily Toolkit</span>
+            <h3>Daily Calm Checklist — Morning</h3>
+            <ul class="checklist">
+              <li>Soft wake up</li>
+              <li>Nourish yourself</li>
+              <li>Set one simple goal</li>
+              <li>Feed baby</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TIER EXPLANATION -->
+  <section class="inside" id="tier-explain">
+    <div class="wrap">
+      <div class="head reveal">
+        <span class="eyebrow">Choose Your Level of Support</span>
+        <h2>Three ways to begin</h2>
+      </div>
+      <div class="tier-explain-grid">
+        <div class="tier-explain-card reveal">
+          <div class="tier-num">1</div>
+          <h3>Core Program</h3>
+          <p class="tagline">The foundation for the first 30 days with your baby &mdash; five parts, your journey</p>
+          <p style="font-size:14.5px; color:var(--ink); margin:0 0 8px; font-weight:600;">Includes:</p>
+          <ul>
+            <li>Introduction Guide (including The N.U.R.T.U.R.E. Method)</li>
+            <li>Part One: Settling Into Motherhood (fillable)</li>
+            <li>Part Two: Creating a Calm Home (fillable)</li>
+            <li>Part Three: Gentle Daily Rhythms (fillable)</li>
+            <li>Part Four: Simplifying the Mental Load (fillable)</li>
+            <li>Part Five: Reflection &amp; Reset (fillable)</li>
+          </ul>
+          <div class="decision-divider"></div>
+          <div class="q">Do you want calm, structured guidance for the first month?</div>
+          <div class="lead">If what you need most is clarity, reassurance, and a gentle roadmap&hellip; this is perfect if you want:</div>
+          <ul>
+            <li>A clear understanding of newborn cues</li>
+            <li>Weekly guidance that feels grounding</li>
+            <li>Emotional reassurance</li>
+            <li>A calm, confidence-building framework</li>
+          </ul>
+          <div class="decision-tag">This is the &ldquo;teach me what I need to know&rdquo; tier.</div>
+        </div>
+        <div class="tier-explain-card reveal">
+          <div class="tier-num">2</div>
+          <h3>Extras Program</h3>
+          <p class="tagline">Thoughtful support and practical tools &mdash; for the everyday and the harder days</p>
+          <p style="font-size:14.5px; color:var(--ink); margin:0 0 8px; font-weight:600;">Includes:</p>
+          <ul>
+            <li>Introduction Guide (including The N.U.R.T.U.R.E. Method)</li>
+            <li>Extra Support (13 gentle guides)</li>
+            <li>Daily Toolkit (7 practical tools, fillable)</li>
+            <li>Daily Journal (4 weeks, fillable)</li>
+          </ul>
+          <div class="decision-divider"></div>
+          <div class="q">Do you want daily tools plus real support for the harder moments too?</div>
+          <div class="lead">If you want gentle guidance for trickier moments alongside fillable checklists, trackers, and journals&hellip; this is perfect if you want:</div>
+          <ul>
+            <li>In-depth guides for the moments that need extra care &mdash; warning signs, feeding worries, crying, recovery, mood, boundaries</li>
+            <li>Tools to track rhythm, sleep, feeds</li>
+            <li>A calm checklist for mornings, midday, evenings</li>
+            <li>A daily journal with gentle prompts</li>
+          </ul>
+          <div class="decision-tag">This is the &ldquo;support me day-to-day, and when things get harder&rdquo; tier.</div>
+        </div>
+        <div class="tier-explain-card feature reveal">
+          <div class="tier-num">3</div>
+          <h3>Full Program</h3>
+          <p class="tagline">The complete experience &mdash; the foundation for the first 30 days with your baby plus thoughtful support and practical tools</p>
+          <p style="font-size:14.5px; color:#fff; margin:0 0 8px; font-weight:600;">Includes:</p>
+          <p style="font-size:13px; color:#F0D9CC; margin:0 0 4px; font-weight:600; text-transform:uppercase; letter-spacing:0.5px;">Core Program</p>
+          <ul>
+            <li>Introduction Guide (including The N.U.R.T.U.R.E. Method)</li>
+            <li>Part One: Settling Into Motherhood (fillable)</li>
+            <li>Part Two: Creating a Calm Home (fillable)</li>
+            <li>Part Three: Gentle Daily Rhythms (fillable)</li>
+            <li>Part Four: Simplifying the Mental Load (fillable)</li>
+            <li>Part Five: Reflection &amp; Reset (fillable)</li>
+          </ul>
+          <p style="font-size:13px; color:#F0D9CC; margin:12px 0 4px; font-weight:600; text-transform:uppercase; letter-spacing:0.5px;">Extras Program</p>
+          <ul>
+            <li>Extra Support (13 gentle guides)</li>
+            <li>Daily Toolkit (7 practical tools, fillable)</li>
+            <li>Daily Journal (4 weeks, fillable)</li>
+          </ul>
+          <div class="decision-divider"></div>
+          <div class="q">Do you want the complete Beginning Haven experience?</div>
+          <div class="lead">If you want both the guidance and the daily tools &mdash; the full system&hellip; this is perfect if you want:</div>
+          <ul>
+            <li>Everything in one place</li>
+            <li>A holistic postpartum companion</li>
+            <li>Both education + practical tools</li>
+            <li>Emotional support + structure + daily rhythm</li>
+            <li>The best value</li>
+          </ul>
+          <div class="decision-tag">This is the &ldquo;I want to feel fully supported&rdquo; tier.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING / CTA -->
+  <section class="cta-band" id="pricing">
+    <div class="wrap">
+      <span class="eyebrow">Start Your Journey</span>
+      <h2>A guided 30-day experience to help you feel calm, confident, and connected &mdash; every day.</h2>
+      <p>18 guides, 7 practical tools, and a Daily Journal to support you through the first 30 days and beyond. Print versions of every guide, plus fillable versions wherever there's something to fill in. Yours to keep, reference, and return to whenever you need it.</p>
+      <p style="font-style:italic; color:var(--terracotta); margin-top:14px;">Choose your level of support &mdash; each designed to nurture calm and confidence.</p>
+
+      <div class="tier-row">
+        <div class="tier-card">
+          <div class="tier-name">Core Program</div>
+          <ul class="tier-desc" style="margin:0 0 10px;">
+            <li>Introduction Guide</li>
+            <li>Parts One to Five</li>
+          </ul>
+          <div class="tier-price">$39</div>
+        </div>
+        <div class="tier-card">
+          <div class="tier-name">Extras Program</div>
+          <ul class="tier-desc" style="margin:0 0 10px;">
+            <li>Introduction Guide</li>
+            <li>Extra Support (13 guides)</li>
+            <li>Daily Toolkit (7 tools)</li>
+            <li>Daily Journal</li>
+          </ul>
+          <div class="tier-price">$29</div>
+        </div>
+        <div class="tier-card tier-card-featured">
+          <div class="tier-name">Full Program</div>
+          <ul class="tier-desc" style="margin:0 0 10px;">
+            <li>Core Program</li>
+            <li>Extras Program</li>
+          </ul>
+          <div style="display:inline-block; font-size:10.5px; font-weight:700; letter-spacing:1.2px; text-transform:uppercase; color:#fff; background:var(--terracotta); border-radius:20px; padding:3px 10px; margin-bottom:8px;">Best Value</div>
+          <div class="tier-price"><span style="text-decoration:line-through; color:#B4A398; font-size:16px; font-weight:400; margin-right:8px;">$68</span>$49</div>
+        </div>
+      </div>
+
+      <div class="price-row">
+        <a href="https://beginninghaven.lemonsqueezy.com/checkout/buy/49aa74c8-63a9-4314-a7c1-6927ad0a0584" class="btn">Download Program</a>
+        <a href="Beginning%20Haven%20-%20Free%20Preview.pdf" target="_blank" class="btn ghost">Download Free Preview</a>
+      </div>
+      <p style="font-size:12px; color:var(--ink-soft); max-width:480px; margin:16px auto 0; text-align:center; line-height:1.5;">This program offers general guidance and is not a substitute for professional medical advice. Always consult your doctor or midwife with questions about your baby's health.</p>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq" id="faq">
+    <div class="wrap">
+      <div class="head reveal" style="text-align:center; max-width:560px; margin:0 auto 40px;">
+        <span class="eyebrow">Support</span>
+        <h2>FAQ</h2>
+      </div>
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-q">What makes Beginning Haven different? <span class="plus">+</span></button>
+          <div class="faq-a"><p>A gentle, non&#8209;overwhelming approach with no rigid schedules or pressure &mdash; designed for real life with a newborn. Every guide is fillable and flexible, created to support both baby and mum.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">Do I need to read it all in order? <span class="plus">+</span></button>
+          <div class="faq-a"><p>No. Most of the program is written to be read once, then used as a reference whenever you need it. Some sections you'll come back to more than others — skip straight to whatever's useful in the moment.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">Is the Free Preview really free? <span class="plus">+</span></button>
+          <div class="faq-a"><p>Yes, no strings attached. It includes the Welcome guide, The N.U.R.T.U.R.E. Method overview, and real sample pages so you know exactly what you'd be getting across the whole range.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">Do I need to buy Daily Toolkit and Daily Journal separately? <span class="plus">+</span></button>
+          <div class="faq-a"><p>No &mdash; they're both included whenever you get Extras Program or Full Program, alongside the Introduction Guide and Extra Support guides. Full Program also includes all five Parts. Nothing extra to buy.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">What's the difference between Daily Toolkit and Daily Journal? <span class="plus">+</span></button>
+          <div class="faq-a"><p>Daily Toolkit is seven practical tools for everyday use, from tracking your baby's rhythm to resetting your own. Daily Journal is a softer, slower space for a daily idea and your own notes.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">What format do the guides come in? <span class="plus">+</span></button>
+          <div class="faq-a"><p>Everything is a PDF, so it opens on your phone, tablet, or computer without needing any special app. Each guide comes in a print version, and wherever there's something to fill in &mdash; checklists, trackers, workbook pages &mdash; a fillable version is included too.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">Can I fill it in on my phone? <span class="plus">+</span></button>
+          <div class="faq-a"><p>Yes — every checklist, tracker, and workbook page comes in a fillable version with real tappable checkboxes and text fields, alongside a clean print version for anyone who prefers paper.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">Is this still useful if this isn't my first baby? <span class="plus">+</span></button>
+          <div class="faq-a"><p>Yes. Every baby and every early season looks a little different, and the program is written to meet you wherever you are &mdash; whether that's a first baby or a fourth.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">Is this only useful for the first 30 days? <span class="plus">+</span></button>
+          <div class="faq-a"><p>Not at all. While Part One is built around the first four weeks, the rest of the program &mdash; the Extra Support guide, Daily Toolkit, Daily Journal, and reflection pages &mdash; are designed to be picked up and reused for as long as they're useful to you.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <div class="wrap">
+      <div class="head reveal" style="text-align:center; max-width:560px; margin:0 auto;">
+        <span class="eyebrow">Support</span>
+        <h2>Contact Us</h2>
+        <p class="sub">We'd love to hear from you. Have something you'd like to see next? Reach out any time.</p>
+        <a href="mailto:hello@beginninghaven.com" class="btn" style="display:inline-block; margin-top:20px;">Email Us</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="wrap" style="text-align:center; max-width:640px; margin:0 auto;">
+      <span class="eyebrow">About</span>
+      <h2>Our Story</h2>
+      <p class="about-p">I created Beginning Haven because everything I needed in those first few months with my own children simply wasn't available in one place &mdash; so I built it myself.</p>
+      <p class="about-p">I have created gentle, practical guides for the earliest weeks of motherhood, so you have something steady to reach for, whenever you need it. Every guide, checklist, and journal page is written the way I'd want a friend to talk to me &mdash; honestly, warmly, and without judgement.</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">
+          <svg class="brand-leaf-icon" viewBox="0 0 200 340" fill="none"><path d="M100 325 C 99 270, 100 195, 100 127" stroke="#8CA07C" stroke-width="6" fill="none"/><path d="M100 265 C 125 251, 147 228, 155 195 C 127 195, 106 214, 100 242 Z" fill="#ADBBA0"/><path d="M100 265 C 129 262, 158 250, 178 223 C 153 212, 127 221, 110 244 Z" fill="#8CA07C"/><path d="M100 219 C 75 205, 53 182, 45 149 C 73 149, 94 168, 100 196 Z" fill="#ADBBA0"/><path d="M100 219 C 71 216, 42 204, 22 177 C 47 166, 73 175, 90 198 Z" fill="#8CA07C"/><path d="M100 173 C 125 159, 147 136, 155 103 C 127 103, 106 122, 100 150 Z" fill="#ADBBA0"/><path d="M100 173 C 129 170, 158 158, 178 131 C 153 120, 127 129, 110 152 Z" fill="#8CA07C"/><path d="M100 127 C 85 112, 78 92, 80 67 C 100 77, 108 97, 100 127 Z" fill="#ADBBA0"/><path d="M100 127 C 80 119, 66 104, 57 80 C 80 81, 95 96, 100 127 Z" fill="#8CA07C"/></svg>
+          Beginning Haven<span style="font-weight:400; margin-left:-5px;">&trade;</span>
+        </div>
+        <p style="color:var(--ink-soft); font-size:14px; max-width:260px; margin-top:12px;">A gentle guide to calm, confident motherhood.</p>
+        <p style="color:var(--terracotta); font-size:14px; font-style:italic; max-width:260px; margin-top:10px;">Begin gently. You're doing beautifully.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h5>Program</h5>
+          <a href="#method">The Framework</a>
+          <a href="#inside">What's Inside</a>
+          <a href="#peek">Sneak Peek</a>
+        </div>
+        <div class="footer-col">
+          <h5>Support</h5>
+          <a href="#faq">FAQ</a>
+          <a href="#contact">Contact Us</a>
+        </div>
+        <div class="footer-col">
+          <h5>About</h5>
+          <a href="#about">Our Story</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom" style="flex-direction:column; align-items:flex-start;">
+      <p style="font-size:12px; color:var(--ink-soft); line-height:1.6; max-width:720px; margin:0 0 14px;">The information provided by Beginning Haven is general in nature and intended for educational purposes only. It is not a substitute for professional medical advice, diagnosis, or treatment. Always consult your doctor, midwife, or paediatrician with questions about your baby's health, development, or any concerns that arise during your postpartum recovery.</p>
+      <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; width:100%;">
+        <span>&copy; 2026 Beginning Haven&trade; All rights reserved.</span>
+        <span>Start your journey with The N.U.R.T.U.R.E. Method&trade;</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div class="scroll-nav">
+  <button type="button" class="scroll-btn scroll-up" aria-label="Scroll to top">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M6 15l6-6 6 6" stroke="#8B5E4D" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <button type="button" class="scroll-btn scroll-down" aria-label="Scroll to bottom">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="#8B5E4D" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+</div>
+
+<script>
+  // Mobile menu toggle
+  const mobileToggle = document.querySelector('.mobile-toggle');
+  const mobileMenu = document.querySelector('.mobile-menu');
+  const iconBurger = document.querySelector('.icon-burger');
+  const iconClose = document.querySelector('.icon-close');
+  if(mobileToggle && mobileMenu){
+    mobileToggle.addEventListener('click', ()=>{
+      const isOpen = mobileMenu.classList.toggle('open');
+      mobileToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      iconBurger.style.display = isOpen ? 'none' : 'block';
+      iconClose.style.display = isOpen ? 'block' : 'none';
+    });
+    // Close the menu after tapping any link inside it
+    mobileMenu.querySelectorAll('a').forEach(link=>{
+      link.addEventListener('click', ()=>{
+        mobileMenu.classList.remove('open');
+        mobileToggle.setAttribute('aria-expanded', 'false');
+        iconBurger.style.display = 'block';
+        iconClose.style.display = 'none';
+      });
+    });
+  }
+
+  // Scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window){
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+    }, {threshold:0.15});
+    revealEls.forEach(el=>io.observe(el));
+  } else {
+    // Older/unsupported browsers: just show everything immediately
+    revealEls.forEach(el=>el.classList.add('in'));
+  }
+  // Safety net: if anything is still hidden after 2s (observer missed it, browser quirk, etc.), reveal it anyway
+  setTimeout(()=>{
+    document.querySelectorAll('.reveal:not(.in)').forEach(el=>el.classList.add('in'));
+  }, 2000);
+
+  // Contact form (placeholder until connected to a real backend, e.g. Formspree)
+  const contactForm = document.querySelector('.contact-form');
+  if(contactForm){
+    contactForm.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      alert('Thanks! This form isn\'t connected to send messages yet \u2014 once wired up to an email service, this will reach us directly.');
+    });
+  }
+
+  // Scroll up/down buttons
+  const scrollUpBtn = document.querySelector('.scroll-up');
+  const scrollDownBtn = document.querySelector('.scroll-down');
+  if(scrollUpBtn && scrollDownBtn){
+    const updateScrollButtons = ()=>{
+      const scrollY = window.scrollY;
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      scrollUpBtn.classList.toggle('visible', scrollY > 400);
+      scrollDownBtn.classList.toggle('visible', scrollY < maxScroll - 400);
+    };
+    window.addEventListener('scroll', updateScrollButtons, {passive:true});
+    window.addEventListener('resize', updateScrollButtons);
+    updateScrollButtons();
+
+    scrollUpBtn.addEventListener('click', ()=>{
+      window.scrollTo({top:0, behavior:'smooth'});
+    });
+    scrollDownBtn.addEventListener('click', ()=>{
+      window.scrollTo({top:document.documentElement.scrollHeight, behavior:'smooth'});
+    });
+  }
+
+  // FAQ accordion
+  document.querySelectorAll('.faq-q').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const item = btn.parentElement;
+      const answer = item.querySelector('.faq-a');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(o=>{
+        o.classList.remove('open');
+        o.querySelector('.faq-a').style.maxHeight = null;
+      });
+      if(!isOpen){
+        item.classList.add('open');
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
